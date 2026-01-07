@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>出席登録画面</title>
+</head>
+<body>
+  <h1 th:text="${message}">出席登録</h1>
+  <hr>
+  <form
+    action="/attendance"
+    method="post">
+    <label>ユニット：</label> <select
+      name="unit"
+      required>
+      <option value="">選択してください</option>
+      <option value="ict">ICT</option>
+      <option value="dxservice">DXサービス</option>
+      <option value="dxcloud">DXクラウド</option>
+      <option value="media">メディア</option>
+      <option value="innovation">イノベーション</option>
+      <option value="socialcommunication">社会通信</option>
+      <option value="corporatecommunication">法人通信</option>
+      <option value="public">公共</option>
+      <option value="social">社会</option>
+      <option value="expert">エキスパート</option>
+      <option value="sales">営業</option>
+      <option value="business">業務</option>
+    </select> 
+    <br>
+    <label>氏名：</label> <input
+      type="text"
+      name="username"
+      placeholder="例：山田太郎"
+      required> 
+     <br> 
+      <label>参加日：</label> <input
+      type="date"
+      name="inputDate"
+      required> <br>
+
+    <button type="submit">送信</button>
+  </form>
+</body>
+</html>
