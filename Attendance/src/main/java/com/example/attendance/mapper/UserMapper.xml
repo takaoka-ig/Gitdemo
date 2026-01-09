@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.attendance.mapper.UserMapper">
+
+    <!-- 名前とユニットで検索 -->
+    <select id="findByNameAndUnit" parameterType="map" resultType="com.example.attendance.model.User">
+        SELECT id, name, unit
+        FROM users
+        WHERE name = #{name} AND unit = #{unit}
+    </select>
+
+    <!-- 挿入 -->
+    <insert id="insert" parameterType="com.example.attendance.model.User" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO users (name, unit)
+        VALUES (#{name}, #{unit})
+    </insert>
+
+</mapper>
