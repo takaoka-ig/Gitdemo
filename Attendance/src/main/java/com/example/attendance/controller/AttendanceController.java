@@ -1,30 +1,54 @@
 package com.example.attendance.controller;
 
+import java.time.LocalDate;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.attendance.service.AttendanceService;
+
 @Controller
 public class AttendanceController {
 
-	@GetMapping("/attendance")
-	public String showForm(Model model) {
-		model.addAttribute("message", "出席登録画面");
-		return "attendance";
-	}
+    private final AttendanceService attendanceService;
 
-	@PostMapping("/attendance")
-	public String submit(
-			@RequestParam("unit") String unit,
-			@RequestParam("username") String username,
-			@RequestParam("inputDate") String inputDate,
-			Model model) {
+    public AttendanceController(AttendanceService attendanceService) {
+        this.attendanceService = attendanceService;
+    }
 
-		model.addAttribute(
-				"message",
-				"出席登録しました：" + unit + " / " + username + " / " + inputDate);
-		return "attendance";
-	}
+    @GetMapping("/attendance")
+    public String showForm(Model model) {
+        model.addAttribute("message", "出席登録画面");
+        return "attendance";
+    }
+
+    @PostMapping("/attendance")
+    public String submit(
+            @RequestParam("unit") String unit,
+            @RequestParam("username") String username,
+            @RequestParam("inputDate") String inputDate,
+            Model model) {
+
+        try {
+            attendanceService.register(
+                unit,
+                username,
+                LocalDate.parse(inputDate)
+            );
+            model.addAttribute(
+                "message",
+                "出席登録しました：" + unit + " / " + username + " / " + inputDate
+            );
+        } catch (IllegalStateException e) {
+            model.addAttribute("message", e.getMessage());
+        }
+
+        return "attendance";
+    }
+
+    
+    
 }

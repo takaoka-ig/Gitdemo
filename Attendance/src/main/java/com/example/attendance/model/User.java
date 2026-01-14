@@ -2,16 +2,15 @@ package com.example.attendance.model;
 
 public class User {
 
-    private Integer id;  // SERIAL 自動採番用
+    private Integer userId;
     private String name;
     private String unit;
 
-    // ===== getter / setter =====
-    public Integer getId() {
-        return id;
+    public Integer getUserId() {
+        return userId;
     }
-    public void setId(Integer id) {
-        this.id = id;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public String getName() {

@@ -37,6 +37,6 @@ public class UserController {
     @PostMapping("/add")
     public String insertUser(@RequestBody User user) {
         userMapper.insert(user);
-        return "User inserted with ID: " + user.getId();
+        return "User inserted with ID: " + user.getUserId();
     }
 }

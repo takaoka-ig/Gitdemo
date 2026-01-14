@@ -5,15 +5,23 @@
 
 <mapper namespace="com.example.attendance.mapper.UserMapper">
 
-    <!-- 名前とユニットで検索 -->
-    <select id="findByNameAndUnit" parameterType="map" resultType="com.example.attendance.model.User">
-        SELECT id, name, unit
+	<!-- 名前とユニットで検索 -->
+    <select id="findByNameAndUnit"
+            parameterType="map"
+            resultType="com.example.attendance.model.User">
+        SELECT user_id AS userId,
+               name,
+               unit
         FROM users
-        WHERE name = #{name} AND unit = #{unit}
+        WHERE name = #{name}
+          AND unit = #{unit}
     </select>
 
-    <!-- 挿入 -->
-    <insert id="insert" parameterType="com.example.attendance.model.User" useGeneratedKeys="true" keyProperty="id">
+	<!-- 挿入 -->
+    <insert id="insert"
+            parameterType="com.example.attendance.model.User"
+            useGeneratedKeys="true"
+            keyProperty="userId">
         INSERT INTO users (name, unit)
         VALUES (#{name}, #{unit})
     </insert>
