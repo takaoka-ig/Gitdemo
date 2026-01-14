@@ -2,6 +2,8 @@ package com.example.attendance.service;
 
 import java.time.LocalDate;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,6 +13,9 @@ import com.example.attendance.model.User;
 
 @Service
 public class AttendanceService {
+
+    private static final Logger log =
+            LogManager.getLogger(AttendanceService.class);
 
     private final AttendanceMapper attendanceMapper;
     private final UserService userService;
@@ -25,9 +30,14 @@ public class AttendanceService {
     @Transactional
     public void register(String unit, String username, LocalDate inputDate) {
 
+        log.info("出席登録開始 unit={}, username={}, date={}",
+                 unit, username, inputDate);
+
         // ユーザー取得（なければ作成）
         User user = userService.findByNameAndUnit(username, unit);
         if (user == null) {
+            log.info("ユーザー未存在のため新規作成 unit={}, username={}",
+                     unit, username);
             user = new User();
             user.setName(username);
             user.setUnit(unit);
@@ -41,6 +51,7 @@ public class AttendanceService {
             attendanceMapper.existsByUserIdAndDate(userId, inputDate);
 
         if (exists) {
+            log.warn("二重登録検知 userId={}, date={}", userId, inputDate);
             throw new IllegalStateException(
                 inputDate + " はすでに出席登録されています。"
             );
@@ -52,5 +63,7 @@ public class AttendanceService {
         attendance.setInputDate(inputDate);
 
         attendanceMapper.insert(attendance);
+
+        log.info("出席登録完了 userId={}, date={}", userId, inputDate);
     }
 }
