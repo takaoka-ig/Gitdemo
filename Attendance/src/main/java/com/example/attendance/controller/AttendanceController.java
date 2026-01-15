@@ -32,23 +32,17 @@ public class AttendanceController {
             @RequestParam("inputDate") String inputDate,
             Model model) {
 
-        try {
-            attendanceService.register(
-                unit,
-                username,
-                LocalDate.parse(inputDate)
-            );
-            model.addAttribute(
-                "message",
-                "出席登録しました：" + unit + " / " + username + " / " + inputDate
-            );
-        } catch (IllegalStateException e) {
-            model.addAttribute("message", e.getMessage());
-        }
+        attendanceService.register(
+            unit,
+            username,
+            LocalDate.parse(inputDate)
+        );
+
+        model.addAttribute(
+            "message",
+            "出席登録しました：" + unit + " / " + username + " / " + inputDate
+        );
 
         return "attendance";
     }
-
-    
-    
 }

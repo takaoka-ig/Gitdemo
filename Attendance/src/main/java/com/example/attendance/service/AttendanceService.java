@@ -15,7 +15,7 @@ import com.example.attendance.model.User;
 public class AttendanceService {
 
     private static final Logger log =
-            LogManager.getLogger(AttendanceService.class);
+        LogManager.getLogger(AttendanceService.class);
 
     private final AttendanceMapper attendanceMapper;
     private final UserService userService;
@@ -33,37 +33,51 @@ public class AttendanceService {
         log.info("出席登録開始 unit={}, username={}, date={}",
                  unit, username, inputDate);
 
-        // ユーザー取得（なければ作成）
-        User user = userService.findByNameAndUnit(username, unit);
-        if (user == null) {
-            log.info("ユーザー未存在のため新規作成 unit={}, username={}",
-                     unit, username);
-            user = new User();
-            user.setName(username);
-            user.setUnit(unit);
-            userService.insert(user);
-        }
+        try {
+            // ユーザー取得（なければ作成）
+            User user = userService.findByNameAndUnit(username, unit);
+            if (user == null) {
+                user = new User();
+                user.setName(username);
+                user.setUnit(unit);
+                userService.insert(user);
+            }
 
-        Integer userId = user.getUserId();
+            Integer userId = user.getUserId();
 
-        // 重複チェック
-        boolean exists =
-            attendanceMapper.existsByUserIdAndDate(userId, inputDate);
+            // 重複チェック
+            boolean exists =
+                attendanceMapper.existsByUserIdAndDate(userId, inputDate);
 
-        if (exists) {
-            log.warn("二重登録検知 userId={}, date={}", userId, inputDate);
-            throw new IllegalStateException(
-                inputDate + " はすでに出席登録されています。"
+            if (exists) {
+                log.warn("二重登録検知 userId={}, date={}", userId, inputDate);
+                throw new IllegalStateException(
+                    inputDate + " はすでに出席登録されています。"
+                );
+            }
+
+            // 出席登録
+            Attendance attendance = new Attendance();
+            attendance.setUserId(userId);
+            attendance.setInputDate(inputDate);
+
+            attendanceMapper.insert(attendance);
+
+            log.info("出席登録完了 userId={}, date={}", userId, inputDate);
+
+        } catch (IllegalStateException e) {
+            // エラー（想定内）
+            log.warn("業務エラー: {}", e.getMessage());
+            throw e;
+
+        } catch (Exception e) {
+            // 想定外エラー
+            log.error(
+                "出席登録中に想定外エラーが発生しました unit={}, username={}, date={}",
+                unit, username, inputDate,
+                e
             );
+            throw e;
         }
-
-        // 出席登録
-        Attendance attendance = new Attendance();
-        attendance.setUserId(userId);
-        attendance.setInputDate(inputDate);
-
-        attendanceMapper.insert(attendance);
-
-        log.info("出席登録完了 userId={}, date={}", userId, inputDate);
     }
 }
