@@ -19,10 +19,25 @@
 	</insert>
 
 	<select id="existsByUserIdAndDate" resultType="boolean">
-		SELECT COUNT(*) > 0
+		SELECT COUNT(*) >0
 		FROM attendance
 		WHERE user_id = #{userId}
 		AND input_date = #{inputDate}
+	</select>
+
+	<select id="findByDate" parameterType="java.time.LocalDate"
+		resultType="com.example.attendance.dto.AttendanceView">
+
+		SELECT
+		u.unit AS unit,
+		u.name AS username,
+		a.input_date AS inputDate
+		FROM attendance a
+		JOIN users u
+		ON a.user_id = u.user_id
+		WHERE a.input_date = #{date}
+		ORDER BY u.unit, u.name
+
 	</select>
 
 </mapper>

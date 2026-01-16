@@ -1,15 +1,18 @@
 package com.example.attendance.service;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.attendance.dto.AttendanceView;
 import com.example.attendance.mapper.AttendanceMapper;
 import com.example.attendance.model.Attendance;
 import com.example.attendance.model.User;
+
 
 @Service
 public class AttendanceService {
@@ -25,6 +28,12 @@ public class AttendanceService {
             UserService userService) {
         this.attendanceMapper = attendanceMapper;
         this.userService = userService;
+    }
+    
+    public List<AttendanceView> getTodayAttendances() {
+        LocalDate today = LocalDate.now();
+        log.info("本日の出席者一覧取得 date={}", today);
+        return attendanceMapper.findByDate(today);
     }
 
     @Transactional

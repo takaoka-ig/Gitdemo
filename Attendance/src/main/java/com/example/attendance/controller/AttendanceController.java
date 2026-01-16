@@ -1,6 +1,7 @@
 package com.example.attendance.controller;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.attendance.dto.AttendanceView;
 import com.example.attendance.service.AttendanceService;
 
 @Controller
@@ -44,5 +46,17 @@ public class AttendanceController {
         );
 
         return "attendance";
+    }
+    
+    @GetMapping("/attendance/today")
+    public String showTodayAttendance(Model model) {
+
+        List<AttendanceView> list =
+            attendanceService.getTodayAttendances();
+
+        model.addAttribute("date", LocalDate.now());
+        model.addAttribute("attendanceList", list);
+
+        return "attendance-today";
     }
 }

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>本日の出席者一覧</title>
+</head>
+<body>
+
+<h1 th:text="'本日の出席者一覧（' + ${date} + '）'"></h1>
+<hr>
+
+<!-- 出席者がいない場合のメッセージ -->
+<p th:if="${#lists.isEmpty(attendanceList)}">
+    本日の出席者はまだいません。
+</p>
+
+<table border="1">
+    <thead>
+        <tr>
+            <th>ユニット</th>
+            <th>名前</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="a : ${attendanceList}">
+            <td th:text="${a.unit}"></td>
+            <td th:text="${a.username}"></td>
+        </tr>
+    </tbody>
+</table>
+
+<a href="/attendance">戻る</a>
+
+</body>
+</html>

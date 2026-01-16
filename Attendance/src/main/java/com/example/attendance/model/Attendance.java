@@ -5,40 +5,43 @@ import java.time.LocalDateTime;
 
 public class Attendance {
 
-    private Integer attendanceId;
-    private Integer userId;
-    private LocalDate inputDate;
-    private LocalDateTime createdAt;
+	private Integer attendanceId;
+	private Integer userId;
+	private LocalDate inputDate;
+	private LocalDateTime createdAt;
 
-    public Integer getAttendanceId() {
-        return attendanceId;
-    }
+	private String name;
+	private String unit;
 
-    public void setAttendanceId(Integer attendanceId) {
-        this.attendanceId = attendanceId;
-    }
+	public Integer getAttendanceId() {
+		return attendanceId;
+	}
 
-    public Integer getUserId() {
-        return userId;
-    }
+	public void setAttendanceId(Integer attendanceId) {
+		this.attendanceId = attendanceId;
+	}
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
+	public Integer getUserId() {
+		return userId;
+	}
 
-    public LocalDate getInputDate() {
-        return inputDate;
-    }
+	public void setUserId(Integer userId) {
+		this.userId = userId;
+	}
 
-    public void setInputDate(LocalDate inputDate) {
-        this.inputDate = inputDate;
-    }
+	public LocalDate getInputDate() {
+		return inputDate;
+	}
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
+	public void setInputDate(LocalDate inputDate) {
+		this.inputDate = inputDate;
+	}
 
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
+	public LocalDateTime getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(LocalDateTime createdAt) {
+		this.createdAt = createdAt;
+	}
 }
