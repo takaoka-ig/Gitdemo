@@ -9,9 +9,7 @@ public class Attendance {
 	private Integer userId;
 	private LocalDate inputDate;
 	private LocalDateTime createdAt;
-
-	private String name;
-	private String unit;
+	private String status; 
 
 	public Integer getAttendanceId() {
 		return attendanceId;

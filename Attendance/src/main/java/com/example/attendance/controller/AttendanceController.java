@@ -15,48 +15,64 @@ import com.example.attendance.service.AttendanceService;
 @Controller
 public class AttendanceController {
 
-    private final AttendanceService attendanceService;
+	private final AttendanceService attendanceService;
 
-    public AttendanceController(AttendanceService attendanceService) {
-        this.attendanceService = attendanceService;
-    }
+	public AttendanceController(AttendanceService attendanceService) {
+		this.attendanceService = attendanceService;
+	}
 
-    @GetMapping("/attendance")
-    public String showForm(Model model) {
-        model.addAttribute("message", "出席登録画面");
-        return "attendance";
-    }
+	@GetMapping("/attendance")
+	public String showForm(Model model) {
+		model.addAttribute("message", "出席登録画面");
+		return "attendance";
+	}
 
-    @PostMapping("/attendance")
-    public String submit(
-            @RequestParam("unit") String unit,
-            @RequestParam("username") String username,
-            @RequestParam("inputDate") String inputDate,
-            Model model) {
+	@PostMapping("/attendance")
+	public String submit(
+			@RequestParam("unit") String unit,
+			@RequestParam("username") String username,
+			@RequestParam("inputDate") String inputDate,
+			Model model) {
 
-        attendanceService.register(
-            unit,
-            username,
-            LocalDate.parse(inputDate)
-        );
+		attendanceService.register(
+				unit,
+				username,
+				LocalDate.parse(inputDate));
 
-        model.addAttribute(
-            "message",
-            "出席登録しました：" + unit + " / " + username + " / " + inputDate
-        );
+		model.addAttribute(
+				"message",
+				"出席登録しました：" + unit + " / " + username + " / " + inputDate);
 
-        return "attendance";
-    }
-    
-    @GetMapping("/attendance/today")
-    public String showTodayAttendance(Model model) {
+		return "attendance";
+	}
 
-        List<AttendanceView> list =
-            attendanceService.getTodayAttendances();
+	@GetMapping("/attendance/today")
+	public String showTodayAttendance(Model model) {
 
-        model.addAttribute("date", LocalDate.now());
-        model.addAttribute("attendanceList", list);
+		List<AttendanceView> list = attendanceService.getTodayAttendances();
 
-        return "attendance-today";
-    }
+		model.addAttribute("date", LocalDate.now());
+		model.addAttribute("attendanceList", list);
+
+		return "attendance-today";
+	}
+
+	@PostMapping("/attendance/update/status")
+	public String updateStatus(
+			@RequestParam("attendanceId") Integer attendanceId,
+			@RequestParam("status") String status) {
+
+		attendanceService.changeStatus(attendanceId, status);
+		return "redirect:/attendance/today";
+	}
+
+	@PostMapping("/attendance/update/date")
+	public String updateDate(
+			@RequestParam("attendanceId") Integer attendanceId,
+			@RequestParam("inputDate") LocalDate inputDate) {
+
+		attendanceService.changeDate(attendanceId, inputDate);
+		return "redirect:/attendance/today";
+	}
+
 }

@@ -22,6 +22,18 @@ public interface AttendanceMapper {
 
 	// 指定日の出席者一覧取得
 	List<AttendanceView> findByDate(
-		    @Param("date") LocalDate date
-		);
+			@Param("date") LocalDate date);
+
+	// 出席／欠席更新
+	void updateStatus(
+	        @Param("attendanceId") Integer attendanceId,
+	        @Param("status") String status
+	    );
+
+	// 日付更新
+	void updateDate(
+	    @Param("attendanceId") Integer attendanceId,
+	    @Param("inputDate") LocalDate inputDate
+	);
+
 }

@@ -29,15 +29,35 @@
 		resultType="com.example.attendance.dto.AttendanceView">
 
 		SELECT
+		a.attendance_id AS attendanceId,
 		u.unit AS unit,
 		u.name AS username,
-		a.input_date AS inputDate
+		a.input_date AS
+		inputDate
 		FROM attendance a
-		JOIN users u
+		JOIN users
+		u
 		ON a.user_id = u.user_id
-		WHERE a.input_date = #{date}
-		ORDER BY u.unit, u.name
+		WHERE
+		a.input_date = #{date}
+		ORDER BY u.unit,
+		u.name
 
 	</select>
+
+	<update id="updateStatus">
+		UPDATE attendance
+		SET status = #{status}
+		WHERE
+		attendance_id = #{attendanceId}
+	</update>
+
+	<update id="updateDate">
+		UPDATE attendance
+		SET input_date = #{inputDate}
+		WHERE
+		attendance_id = #{attendanceId}
+	</update>
+
 
 </mapper>

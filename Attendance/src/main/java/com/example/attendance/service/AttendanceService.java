@@ -13,80 +13,95 @@ import com.example.attendance.mapper.AttendanceMapper;
 import com.example.attendance.model.Attendance;
 import com.example.attendance.model.User;
 
-
 @Service
 public class AttendanceService {
 
-    private static final Logger log =
-        LogManager.getLogger(AttendanceService.class);
+	private static final Logger log = LogManager.getLogger(AttendanceService.class);
 
-    private final AttendanceMapper attendanceMapper;
-    private final UserService userService;
+	private final AttendanceMapper attendanceMapper;
+	private final UserService userService;
 
-    public AttendanceService(
-            AttendanceMapper attendanceMapper,
-            UserService userService) {
-        this.attendanceMapper = attendanceMapper;
-        this.userService = userService;
-    }
-    
-    public List<AttendanceView> getTodayAttendances() {
-        LocalDate today = LocalDate.now();
-        log.info("本日の出席者一覧取得 date={}", today);
-        return attendanceMapper.findByDate(today);
-    }
+	public AttendanceService(
+			AttendanceMapper attendanceMapper,
+			UserService userService) {
+		this.attendanceMapper = attendanceMapper;
+		this.userService = userService;
+	}
 
-    @Transactional
-    public void register(String unit, String username, LocalDate inputDate) {
+	public List<AttendanceView> getTodayAttendances() {
+		LocalDate today = LocalDate.now();
+		log.info("本日の出席者一覧取得 date={}", today);
+		return attendanceMapper.findByDate(today);
+	}
 
-        log.info("出席登録開始 unit={}, username={}, date={}",
-                 unit, username, inputDate);
+	@Transactional
+	public void register(String unit, String username, LocalDate inputDate) {
 
-        try {
-            // ユーザー取得（なければ作成）
-            User user = userService.findByNameAndUnit(username, unit);
-            if (user == null) {
-                user = new User();
-                user.setName(username);
-                user.setUnit(unit);
-                userService.insert(user);
-            }
+		log.info("出席登録開始 unit={}, username={}, date={}",
+				unit, username, inputDate);
 
-            Integer userId = user.getUserId();
+		try {
+			// ユーザー取得（なければ作成）
+			User user = userService.findByNameAndUnit(username, unit);
+			if (user == null) {
+				user = new User();
+				user.setName(username);
+				user.setUnit(unit);
+				userService.insert(user);
+			}
 
-            // 重複チェック
-            boolean exists =
-                attendanceMapper.existsByUserIdAndDate(userId, inputDate);
+			Integer userId = user.getUserId();
 
-            if (exists) {
-                log.warn("二重登録検知 userId={}, date={}", userId, inputDate);
-                throw new IllegalStateException(
-                    inputDate + " はすでに出席登録されています。"
-                );
-            }
+			// 重複チェック
+			boolean exists = attendanceMapper.existsByUserIdAndDate(userId, inputDate);
 
-            // 出席登録
-            Attendance attendance = new Attendance();
-            attendance.setUserId(userId);
-            attendance.setInputDate(inputDate);
+			if (exists) {
+				log.warn("二重登録検知 userId={}, date={}", userId, inputDate);
+				throw new IllegalStateException(
+						inputDate + " はすでに出席登録されています。");
+			}
 
-            attendanceMapper.insert(attendance);
+			// 出席登録
+			Attendance attendance = new Attendance();
+			attendance.setUserId(userId);
+			attendance.setInputDate(inputDate);
 
-            log.info("出席登録完了 userId={}, date={}", userId, inputDate);
+			attendanceMapper.insert(attendance);
 
-        } catch (IllegalStateException e) {
-            // エラー（想定内）
-            log.warn("業務エラー: {}", e.getMessage());
-            throw e;
+			log.info("出席登録完了 userId={}, date={}", userId, inputDate);
 
-        } catch (Exception e) {
-            // 想定外エラー
-            log.error(
-                "出席登録中に想定外エラーが発生しました unit={}, username={}, date={}",
-                unit, username, inputDate,
-                e
-            );
-            throw e;
-        }
-    }
+		} catch (IllegalStateException e) {
+			// エラー（想定内）
+			log.warn("業務エラー: {}", e.getMessage());
+			throw e;
+
+		} catch (Exception e) {
+			// 想定外エラー
+			log.error(
+					"出席登録中に想定外エラーが発生しました unit={}, username={}, date={}",
+					unit, username, inputDate,
+					e);
+			throw e;
+		}
+
+	}
+
+	@Transactional
+	public void changeStatus(
+			Integer attendanceId,
+			String status) {
+
+		log.info("出席状態更新 id={}, status={}", attendanceId, status);
+		attendanceMapper.updateStatus(attendanceId, status);
+	}
+
+	@Transactional
+	public void changeDate(
+			Integer attendanceId,
+			LocalDate newDate) {
+
+		log.info("出席日付更新 id={}, date={}", attendanceId, newDate);
+		attendanceMapper.updateDate(attendanceId, newDate);
+	}
+
 }
