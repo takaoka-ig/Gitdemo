@@ -57,22 +57,29 @@ public class AttendanceController {
 		return "attendance-today";
 	}
 
-	@PostMapping("/attendance/update/status")
-	public String updateStatus(
-			@RequestParam("attendanceId") Integer attendanceId,
-			@RequestParam("status") String status) {
+	@PostMapping("/attendance/update")
+	public String update(
+	    @RequestParam Integer attendanceId,
+	    @RequestParam String status,
+	    @RequestParam LocalDate inputDate) {
 
-		attendanceService.changeStatus(attendanceId, status);
-		return "redirect:/attendance/today";
+	    attendanceService.updateAttendance(attendanceId, status, inputDate);
+	    return "redirect:/attendance/today";
 	}
 
-	@PostMapping("/attendance/update/date")
-	public String updateDate(
-			@RequestParam("attendanceId") Integer attendanceId,
-			@RequestParam("inputDate") LocalDate inputDate) {
+	@GetMapping("/attendance/edit")
+	public String showEdit(
+	    @RequestParam("attendanceId") Integer attendanceId,
+	    Model model) {
 
-		attendanceService.changeDate(attendanceId, inputDate);
-		return "redirect:/attendance/today";
+
+	    AttendanceView attendance =
+	        attendanceService.getAttendance(attendanceId);
+
+	    model.addAttribute("attendance", attendance);
+
+	    return "attendance-edit";
 	}
 
+	
 }

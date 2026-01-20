@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>出席情報更新</title>
+</head>
+<body>
+
+  <h1>出席情報更新</h1>
+
+  <p>
+    ユニット：<span th:text="${attendance.unit}"></span>
+  </p>
+  <p>
+    名前：<span th:text="${attendance.username}"></span>
+  </p>
+
+  <form
+    th:action="@{/attendance/update}"
+    method="post">
+
+    <input
+      type="hidden"
+      name="attendanceId"
+      th:value="${attendance.attendanceId}" /> <label> 出欠： <select
+      name="status">
+        <option
+          value="ATTEND"
+          th:selected="${attendance.status == 'ATTEND'}">出席</option>
+        <option
+          value="ABSENT"
+          th:selected="${attendance.status == 'ABSENT'}">欠席</option>
+    </select>
+    </label> <br>
+    <br> <label> 日付： <input
+      type="date"
+      name="inputDate"
+      th:value="${attendance.inputDate}" />
+    </label> <br>
+    <br>
+
+    <button type="submit">更新</button>
+    <a href="/attendance/today">戻る</a>
+
+  </form>
+
+</body>
+</html>

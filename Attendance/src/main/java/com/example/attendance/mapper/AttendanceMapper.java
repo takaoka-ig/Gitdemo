@@ -24,16 +24,15 @@ public interface AttendanceMapper {
 	List<AttendanceView> findByDate(
 			@Param("date") LocalDate date);
 
-	// 出席／欠席更新
-	void updateStatus(
-	        @Param("attendanceId") Integer attendanceId,
-	        @Param("status") String status
-	    );
+	// 出席／日付更新
+	void updateAttendance(
+			@Param("attendanceId") Integer attendanceId,
+			@Param("status") String status,
+			@Param("inputDate") LocalDate inputDate);
 
-	// 日付更新
-	void updateDate(
-	    @Param("attendanceId") Integer attendanceId,
-	    @Param("inputDate") LocalDate inputDate
-	);
+	AttendanceView findById(
+		    @Param("attendanceId") Integer attendanceId
+		);
 
+	
 }

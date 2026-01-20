@@ -87,21 +87,21 @@ public class AttendanceService {
 	}
 
 	@Transactional
-	public void changeStatus(
-			Integer attendanceId,
-			String status) {
+	public void updateAttendance(
+	    Integer attendanceId,
+	    String status,
+	    LocalDate inputDate) {
 
-		log.info("出席状態更新 id={}, status={}", attendanceId, status);
-		attendanceMapper.updateStatus(attendanceId, status);
+	    log.info("出席更新 id={}, status={}, date={}",
+	             attendanceId, status, inputDate);
+
+	    attendanceMapper.updateAttendance(attendanceId, status, inputDate);
 	}
 
-	@Transactional
-	public void changeDate(
-			Integer attendanceId,
-			LocalDate newDate) {
-
-		log.info("出席日付更新 id={}, date={}", attendanceId, newDate);
-		attendanceMapper.updateDate(attendanceId, newDate);
+	public AttendanceView getAttendance(Integer attendanceId) {
+	    log.info("出席情報取得 id={}", attendanceId);
+	    return attendanceMapper.findById(attendanceId);
 	}
 
+	
 }

@@ -25,34 +25,18 @@
 
 	<tbody>
 	  <tr th:each="a : ${attendanceList}">
-	    <td colspan="5">
-	      <form th:action="@{/attendance/update/status}" method="post"
-	            style="display:flex; gap:8px; align-items:center;">
-
-	        <input type="hidden"
-	               name="attendanceId"
-	               th:value="${a.attendanceId}" />
-
-	        <span th:text="${a.unit}"></span>
-	        <span th:text="${a.username}"></span>
-
-	        <select name="status">
-	          <option value="ATTEND"
-	                  th:selected="${a.status == 'ATTEND'}">出席</option>
-	          <option value="ABSENT"
-	                  th:selected="${a.status == 'ABSENT'}">欠席</option>
-	        </select>
-
-	        <input type="date"
-	               name="inputDate"
-	               th:value="${a.inputDate}" />
-
-	        <button type="submit">更新</button>
-
-	      </form>
+	    <td th:text="${a.unit}"></td>
+	    <td th:text="${a.username}"></td>
+	    <td th:text="${a.status == 'ATTEND' ? '出席' : '欠席'}"></td>
+	    <td th:text="${a.inputDate}"></td>
+	    <td>
+			<a th:href="@{/attendance/edit(attendanceId=${a.attendanceId})}">
+			  更新
+			</a>
 	    </td>
 	  </tr>
 	</tbody>
+
   </table>
 
   <a href="/attendance">戻る</a>
