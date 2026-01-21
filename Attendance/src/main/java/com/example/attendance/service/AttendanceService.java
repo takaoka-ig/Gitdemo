@@ -21,6 +21,49 @@ public class AttendanceService {
 	private final AttendanceMapper attendanceMapper;
 	private final UserService userService;
 
+	private String convertUnitLabel(String unit) {
+		switch (unit) {
+		case "ict":
+			return "ICT";
+
+		case "dxservice":
+			return "DXサービス";
+
+		case "dxcloud":
+			return "DXクラウド";
+
+		case "media":
+			return "メディア";
+
+		case "innovation":
+			return "イノベーション";
+
+		case "socialcommunication":
+			return "社会通信";
+
+		case "corporatecommunication":
+			return "法人通信";
+
+		case "public":
+			return "公共";
+
+		case "social":
+			return "社会";
+
+		case "expert":
+			return "エキスパート";
+
+		case "sales":
+			return "営業";
+
+		case "business":
+			return "業務";
+
+		default:
+			return unit; // 想定外はそのまま
+		}
+	}
+
 	public AttendanceService(
 			AttendanceMapper attendanceMapper,
 			UserService userService) {
@@ -31,8 +74,10 @@ public class AttendanceService {
 	public List<AttendanceView> getTodayAttendances() {
 		LocalDate today = LocalDate.now();
 		log.info("本日の出席者一覧取得 date={}", today);
+		
 		return attendanceMapper.findByDate(today);
-	}
+		}
+
 
 	@Transactional
 	public void register(String unit, String username, LocalDate inputDate) {
@@ -88,20 +133,27 @@ public class AttendanceService {
 
 	@Transactional
 	public void updateAttendance(
-	    Integer attendanceId,
-	    String status,
-	    LocalDate inputDate) {
+			Integer attendanceId,
+			String status,
+			LocalDate inputDate) {
 
-	    log.info("出席更新 id={}, status={}, date={}",
-	             attendanceId, status, inputDate);
+		log.info("出席更新 id={}, status={}, date={}",
+				attendanceId, status, inputDate);
 
-	    attendanceMapper.updateAttendance(attendanceId, status, inputDate);
+		attendanceMapper.updateAttendance(attendanceId, status, inputDate);
 	}
 
 	public AttendanceView getAttendance(Integer attendanceId) {
-	    log.info("出席情報取得 id={}", attendanceId);
-	    return attendanceMapper.findById(attendanceId);
+		log.info("出席情報取得 id={}", attendanceId);
+
+		return attendanceMapper.findById(attendanceId);
+
 	}
 
-	
+	public List<AttendanceView> getAttendancesByDate(LocalDate date) {
+	    log.info("出席者一覧取得 date={}", date);
+	    return attendanceMapper.findByDate(date);
+
+	}
+
 }

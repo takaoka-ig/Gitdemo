@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.attendance.dto.AttendanceView;
 import com.example.attendance.service.AttendanceService;
@@ -61,9 +62,15 @@ public class AttendanceController {
 	public String update(
 	    @RequestParam Integer attendanceId,
 	    @RequestParam String status,
-	    @RequestParam LocalDate inputDate) {
+	    @RequestParam LocalDate inputDate,
+	    RedirectAttributes redirectAttributes) {
 
 	    attendanceService.updateAttendance(attendanceId, status, inputDate);
+	    
+	    redirectAttributes.addFlashAttribute(
+	            "successMessage",
+	            "出席情報を更新しました"
+	        );
 	    return "redirect:/attendance/today";
 	}
 
@@ -81,5 +88,25 @@ public class AttendanceController {
 	    return "attendance-edit";
 	}
 
+	@GetMapping("/attendance/search")
+	public String search(
+	    @RequestParam(required = false) LocalDate date,
+	    Model model) {
+
+	    // 日付未指定なら今日
+	    LocalDate targetDate =
+	        (date != null) ? date : LocalDate.now();
+
+	    List<AttendanceView> list =
+	        attendanceService.getAttendancesByDate(targetDate);
+
+	    model.addAttribute("date", targetDate);
+	    model.addAttribute("attendanceList", list);
+
+	    return "attendance-search";
+	}
+
+	
+	
 	
 }

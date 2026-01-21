@@ -7,17 +7,20 @@
 <body>
 
   <h1>出席情報更新</h1>
+  <hr>
 
   <p>
-    ユニット：<span th:text="${attendance.unit}"></span>
+    ユニット：<span th:text="${attendance.unitLabel}"></span>
   </p>
+
   <p>
     名前：<span th:text="${attendance.username}"></span>
   </p>
 
-  <form
-    th:action="@{/attendance/update}"
-    method="post">
+  <form th:action="@{/attendance/update}"
+        method="post"
+        onsubmit="return confirm('この内容で更新しますか？');">
+
 
     <input
       type="hidden"
@@ -31,13 +34,11 @@
           value="ABSENT"
           th:selected="${attendance.status == 'ABSENT'}">欠席</option>
     </select>
-    </label> <br>
-    <br> <label> 日付： <input
+    </label> <br> <br> <label> 日付： <input
       type="date"
       name="inputDate"
       th:value="${attendance.inputDate}" />
-    </label> <br>
-    <br>
+    </label> <br> <br>
 
     <button type="submit">更新</button>
     <a href="/attendance/today">戻る</a>

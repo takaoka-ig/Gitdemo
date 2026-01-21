@@ -6,6 +6,7 @@ public class AttendanceView {
 
     private Integer attendanceId;
     private String unit;
+    private String unitLabel; 	//日本語での画面表示用
     private String username;
     private String status;
     private LocalDate inputDate;
@@ -23,8 +24,13 @@ public class AttendanceView {
     }
     public void setUnit(String unit) {
         this.unit = unit;
+        this.unitLabel = convertUnitLabel(unit);
     }
-
+    
+    public String getUnitLabel() {
+        return unitLabel;
+    }
+    
     public String getUsername() {
         return username;
     }
@@ -44,5 +50,23 @@ public class AttendanceView {
     }
     public void setInputDate(LocalDate inputDate) {
         this.inputDate = inputDate;
+    }
+    
+    private String convertUnitLabel(String unit) {
+        return switch (unit) {
+            case "ict"   -> "ICT";
+            case "dxservice" -> "DXサービス";
+            case "dxcloud"    -> "DXクラウド";
+            case "media" -> "メディア";
+            case "innovation"   -> "イノベーション";
+            case "socialcommunication" -> "社会通信";
+            case "corporatecommunication"    -> "法人通信";
+            case "public" -> "公共";
+            case "social"   -> "社会";
+            case "expert" -> "エキスパート";
+            case "sales"    -> "営業";
+            case "business" -> "業務";
+            default      -> unit;
+        };
     }
 }

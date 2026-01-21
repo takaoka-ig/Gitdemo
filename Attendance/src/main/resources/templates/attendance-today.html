@@ -7,6 +7,12 @@
 <body>
 
   <h1 th:text="'本日の出席者一覧（' + ${date} + '）'"></h1>
+  <!-- 更新完了メッセージ -->
+  <p th:if="${successMessage}"
+     th:text="${successMessage}"
+     style="color: green; font-weight: bold;">
+  </p>
+
   <hr>
 
   <!-- 出席者がいない場合のメッセージ -->
@@ -25,7 +31,7 @@
 
 	<tbody>
 	  <tr th:each="a : ${attendanceList}">
-	    <td th:text="${a.unit}"></td>
+	    <td th:text="${a.unitLabel}"></td>
 	    <td th:text="${a.username}"></td>
 	    <td th:text="${a.status == 'ATTEND' ? '出席' : '欠席'}"></td>
 	    <td th:text="${a.inputDate}"></td>

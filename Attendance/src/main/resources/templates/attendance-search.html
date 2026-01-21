@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>出席者照会</title>
+</head>
+<body>
+
+<h1>出席者照会</h1>
+<hr>
+
+<!-- 検索フォーム -->
+<form th:action="@{/attendance/search}" method="get">
+  <label>
+    日付：
+    <input type="date" name="date"
+           th:value="${date}">
+  </label>
+  <button type="submit">検索</button>
+</form>
+
+<hr>
+
+<!-- 検索結果 -->
+<p th:if="${#lists.isEmpty(attendanceList)}">
+  該当する出席者はいません。
+</p>
+
+<table border="1" th:if="${!#lists.isEmpty(attendanceList)}">
+  <thead>
+    <tr>
+      <th>ユニット</th>
+      <th>名前</th>
+      <th>出欠</th>
+      <th>日付</th>
+      <th>操作</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr th:each="a : ${attendanceList}">
+      <td th:text="${a.unitLabel}"></td>
+      <td th:text="${a.username}"></td>
+      <td th:text="${a.status == 'ATTEND' ? '出席' : '欠席'}"></td>
+      <td th:text="${a.inputDate}"></td>
+      <td>
+        <a th:href="@{/attendance/edit(attendanceId=${a.attendanceId})}">
+          更新
+        </a>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<br>
+<a href="/attendance">出席登録へ</a>
+
+</body>
+</html>
