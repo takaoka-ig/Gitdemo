@@ -74,10 +74,9 @@ public class AttendanceService {
 	public List<AttendanceView> getTodayAttendances() {
 		LocalDate today = LocalDate.now();
 		log.info("本日の出席者一覧取得 date={}", today);
-		
-		return attendanceMapper.findByDate(today);
-		}
 
+		return attendanceMapper.findByDate(today);
+	}
 
 	@Transactional
 	public void register(String unit, String username, LocalDate inputDate) {
@@ -151,9 +150,14 @@ public class AttendanceService {
 	}
 
 	public List<AttendanceView> getAttendancesByDate(LocalDate date) {
-	    log.info("出席者一覧取得 date={}", date);
-	    return attendanceMapper.findByDate(date);
+		log.info("出席者一覧取得 date={}", date);
+		return attendanceMapper.findByDate(date);
 
 	}
 
+	public List<AttendanceView> searchAttendances(LocalDate date, String unit, String username) {
+		log.info("検索 date={}, unit={}, username={}", date, unit, username);
+	    return attendanceMapper.search(date, unit, username);
+
+	}
 }

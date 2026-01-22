@@ -91,6 +91,8 @@ public class AttendanceController {
 	@GetMapping("/attendance/search")
 	public String search(
 	    @RequestParam(required = false) LocalDate date,
+	    @RequestParam(required = false) String unit,
+	    @RequestParam(required = false) String username,
 	    Model model) {
 
 	    // 日付未指定なら今日

@@ -68,6 +68,22 @@
 		#{inputDate}
 		WHERE attendance_id = #{attendanceId}
 	</update>
+	
+	<select id="search"
+        resultType="com.example.attendance.dto.AttendanceView">
+
+		SELECT
+		a.attendance_id AS attendanceId,
+		u.unit AS unit,
+		u.name AS username,
+		a.status AS status,
+		a.input_date AS inputDate
+		FROM
+		attendance a
+		JOIN users u ON a.user_id = u.user_id
+		WHERE a.attendance_id
+		= #{attendanceId}
+	</select>
 
 
 

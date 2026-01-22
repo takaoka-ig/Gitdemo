@@ -31,8 +31,11 @@ public interface AttendanceMapper {
 			@Param("inputDate") LocalDate inputDate);
 
 	AttendanceView findById(
-		    @Param("attendanceId") Integer attendanceId
-		);
+			@Param("attendanceId") Integer attendanceId);
 
-	
+	List<AttendanceView> search(
+			@Param("date") LocalDate date,
+			@Param("unit") String unit,
+			@Param("username") String username);
+
 }

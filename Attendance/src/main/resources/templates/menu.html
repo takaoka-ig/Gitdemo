@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>メニュー画面</title>
+</head>
+<body>
+	<h1>メニュー</h1>
+	<hr>
+	
+
+	    <a th:href="@{/attendance}">
+	      出席登録
+	    </a>
+	 <br>
+	    <a th:href="@{/attendance/today}">
+	      本日の出席者一覧
+	    </a>
+	  <br>
+	    <a th:href="@{/attendance/search}">
+	      出席者照会
+	    </a>
+
+	
+</body>
+</html>
