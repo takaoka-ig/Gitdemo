@@ -17,7 +17,9 @@
 
   <!-- 出席者がいない場合のメッセージ -->
   <p th:if="${#lists.isEmpty(attendanceList)}">本日の出席者はまだいません。</p>
-
+  <div>
+       検索結果：<span th:text="${count}"></span> 件
+   </div>
   <table border="1">
     <thead>
       <tr>

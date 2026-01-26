@@ -55,10 +55,7 @@
 		JOIN users u ON a.user_id = u.user_id
 		WHERE a.input_date = #{date}
 		ORDER BY u.unit, u.name
-
 	</select>
-
-
 
 	<update id="updateAttendance">
 		UPDATE attendance
@@ -81,10 +78,18 @@
 		FROM
 		attendance a
 		JOIN users u ON a.user_id = u.user_id
-		WHERE a.attendance_id
-		= #{attendanceId}
+		<where>
+		<if test="unit != null and unit != ''">
+		AND u.unit = #{unit}
+		</if>
+		<if test="username != null and username != ''">
+		AND u.name = #{username} 
+		</if>
+		<if test="date != null">
+		AND a.input_date = #{date}
+		</if>
+		</where>  
 	</select>
-
 
 
 </mapper>

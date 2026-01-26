@@ -102,7 +102,7 @@ public class AttendanceService {
 			if (exists) {
 				log.warn("二重登録検知 userId={}, date={}", userId, inputDate);
 				throw new IllegalStateException(
-						inputDate + " はすでに出席登録されています。");
+						  unit + " / " + username + " / " + inputDate+ " はすでに出席登録されています。");
 			}
 
 			// 出席登録

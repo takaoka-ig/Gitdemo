@@ -33,7 +33,14 @@ public interface AttendanceMapper {
 	AttendanceView findById(
 			@Param("attendanceId") Integer attendanceId);
 
+	//検索	
 	List<AttendanceView> search(
+			@Param("date") LocalDate date,
+			@Param("unit") String unit,
+			@Param("username") String username);
+	
+	//件数表示
+	int searchCount(
 			@Param("date") LocalDate date,
 			@Param("unit") String unit,
 			@Param("username") String username);

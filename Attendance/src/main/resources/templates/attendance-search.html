@@ -7,6 +7,7 @@
 <body>
 
   <h1>出席者照会</h1>
+
   <hr>
 
   <!-- 検索フォーム -->
@@ -14,39 +15,39 @@
     th:action="@{/attendance/search}"
     method="get">
     <label>ユニット： <select name="unit">
-      <option value="">選択してください</option>
-      <option value="ict">ICT</option>
-      <option value="dxservice">DXサービス</option>
-      <option value="dxcloud">DXクラウド</option>
-      <option value="media">メディア</option>
-      <option value="innovation">イノベーション</option>
-      <option value="socialcommunication">社会通信</option>
-      <option value="corporatecommunication">法人通信</option>
-      <option value="public">公共</option>
-      <option value="social">社会</option>
-      <option value="expert">エキスパート</option>
-      <option value="sales">営業</option>
-      <option value="business">業務</option>
-    </select></label><br>
-	
-	<label>氏名： <input
+        <option value="">選択してください</option>
+        <option value="ict">ICT</option>
+        <option value="dxservice">DXサービス</option>
+        <option value="dxcloud">DXクラウド</option>
+        <option value="media">メディア</option>
+        <option value="innovation">イノベーション</option>
+        <option value="socialcommunication">社会通信</option>
+        <option value="corporatecommunication">法人通信</option>
+        <option value="public">公共</option>
+        <option value="social">社会</option>
+        <option value="expert">エキスパート</option>
+        <option value="sales">営業</option>
+        <option value="business">業務</option>
+    </select></label><br> <label>氏名： <input
       type="text"
       name="username"
-      placeholder="例：山田太郎"></label><br>
-	  
-	<label> 日付： <input
+      placeholder="例：山田太郎"></label><br> <label> 日付： <input
       type="date"
       name="date"
       th:value="${date}">
     </label><br>
-	
+
     <button type="submit">検索</button>
   </form>
 
   <hr>
 
   <!-- 検索結果 -->
+  <div>
+    検索結果：<span th:text="${count}"></span> 件
+  </div>
   <p th:if="${#lists.isEmpty(attendanceList)}">該当する出席者はいません。</p>
+
 
   <table
     border="1"

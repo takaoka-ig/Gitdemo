@@ -54,61 +54,62 @@ public class AttendanceController {
 
 		model.addAttribute("date", LocalDate.now());
 		model.addAttribute("attendanceList", list);
+		model.addAttribute("count", list.size());
 
 		return "attendance-today";
 	}
 
 	@PostMapping("/attendance/update")
 	public String update(
-	    @RequestParam Integer attendanceId,
-	    @RequestParam String status,
-	    @RequestParam LocalDate inputDate,
-	    RedirectAttributes redirectAttributes) {
+			@RequestParam Integer attendanceId,
+			@RequestParam String status,
+			@RequestParam LocalDate inputDate,
+			RedirectAttributes redirectAttributes) {
 
-	    attendanceService.updateAttendance(attendanceId, status, inputDate);
-	    
-	    redirectAttributes.addFlashAttribute(
-	            "successMessage",
-	            "出席情報を更新しました"
-	        );
-	    return "redirect:/attendance/today";
+		attendanceService.updateAttendance(attendanceId, status, inputDate);
+
+		redirectAttributes.addFlashAttribute(
+				"successMessage",
+				"出席情報を更新しました");
+		return "redirect:/attendance/today";
 	}
 
 	@GetMapping("/attendance/edit")
 	public String showEdit(
-	    @RequestParam("attendanceId") Integer attendanceId,
-	    Model model) {
+			@RequestParam("attendanceId") Integer attendanceId,
+			Model model) {
 
+		AttendanceView attendance = attendanceService.getAttendance(attendanceId);
 
-	    AttendanceView attendance =
-	        attendanceService.getAttendance(attendanceId);
+		model.addAttribute("attendance", attendance);
 
-	    model.addAttribute("attendance", attendance);
-
-	    return "attendance-edit";
+		return "attendance-edit";
 	}
 
 	@GetMapping("/attendance/search")
 	public String search(
-	    @RequestParam(required = false) LocalDate date,
-	    @RequestParam(required = false) String unit,
-	    @RequestParam(required = false) String username,
-	    Model model) {
+	        @RequestParam(required = false) LocalDate date,
+	        @RequestParam(required = false) String unit,
+	        @RequestParam(required = false) String username,
+	        Model model) {
+
+	    List<AttendanceView> list;
 
 	    // 日付未指定なら今日
-	    LocalDate targetDate =
-	        (date != null) ? date : LocalDate.now();
+	    if (date == null) {
+	        LocalDate targetDate = LocalDate.now();
+	        list = attendanceService.getAttendancesByDate(targetDate);
+	        model.addAttribute("date", targetDate);
+	    } else {
+	        list = attendanceService.searchAttendances(date, unit, username);
+	        model.addAttribute("date", date);
+	    }
 
-	    List<AttendanceView> list =
-	        attendanceService.getAttendancesByDate(targetDate);
-
-	    model.addAttribute("date", targetDate);
 	    model.addAttribute("attendanceList", list);
+	    model.addAttribute("count", list.size()); 
 
 	    return "attendance-search";
 	}
 
-	
-	
-	
+
 }
