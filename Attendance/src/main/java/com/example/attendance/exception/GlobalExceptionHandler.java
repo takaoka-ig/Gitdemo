@@ -1,4 +1,4 @@
-package com.example.attendance.controller;
+package com.example.attendance.exception;
 
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;

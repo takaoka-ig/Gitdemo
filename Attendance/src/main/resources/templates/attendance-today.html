@@ -36,7 +36,7 @@
 	    <td th:text="${a.unitLabel}"></td>
 	    <td th:text="${a.username}"></td>
 	    <td th:text="${a.status == 'ATTEND' ? '出席' : '欠席'}"></td>
-	    <td th:text="${a.inputDate}"></td>
+	    <td th:text="${a.attendanceDate}"></td>
 	    <td>
 			<a th:href="@{/attendance/edit(attendanceId=${a.attendanceId})}">
 			  更新

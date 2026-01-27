@@ -10,11 +10,11 @@
 		parameterType="com.example.attendance.model.Attendance">
 		INSERT INTO attendance (
 		user_id,
-		input_date
+		attendance_date
 		)
 		VALUES (
 		#{userId},
-		#{inputDate}
+		#{attendanceDate}
 		)
 	</insert>
 
@@ -22,7 +22,7 @@
 		SELECT COUNT(*) >0
 		FROM attendance
 		WHERE user_id = #{userId}
-		AND input_date = #{inputDate}
+		AND attendance_date = #{attendanceDate}
 	</select>
 
 	<select id="findById"
@@ -34,7 +34,7 @@
 		u.unit AS unit,
 		u.name AS username,
 		a.status AS status,
-		a.input_date AS inputDate
+		a.attendance_date AS attendanceDate
 		FROM
 		attendance a
 		JOIN users u ON a.user_id = u.user_id
@@ -50,10 +50,10 @@
 		u.unit AS unit,
 		u.name AS username,
 		a.status AS status,
-		a.input_date AS inputDate
+		a.attendance_date AS attendanceDate
 		FROM attendance a
 		JOIN users u ON a.user_id = u.user_id
-		WHERE a.input_date = #{date}
+		WHERE a.attendance_date = #{date}
 		ORDER BY u.unit, u.name
 	</select>
 
@@ -61,8 +61,8 @@
 		UPDATE attendance
 		SET
 		status = #{status},
-		input_date =
-		#{inputDate}
+		attendance_date =
+		#{attendanceDate}
 		WHERE attendance_id = #{attendanceId}
 	</update>
 	
@@ -74,7 +74,7 @@
 		u.unit AS unit,
 		u.name AS username,
 		a.status AS status,
-		a.input_date AS inputDate
+		a.attendance_date AS attendanceDate
 		FROM
 		attendance a
 		JOIN users u ON a.user_id = u.user_id
@@ -86,7 +86,7 @@
 		AND u.name = #{username} 
 		</if>
 		<if test="date != null">
-		AND a.input_date = #{date}
+		AND a.attendance_date = #{date}
 		</if>
 		</where>  
 	</select>

@@ -18,7 +18,7 @@ public interface AttendanceMapper {
 	// 二重登録チェック
 	boolean existsByUserIdAndDate(
 			Integer userId,
-			LocalDate inputDate);
+			LocalDate attendanceDate);
 
 	// 指定日の出席者一覧取得
 	List<AttendanceView> findByDate(
@@ -28,7 +28,7 @@ public interface AttendanceMapper {
 	void updateAttendance(
 			@Param("attendanceId") Integer attendanceId,
 			@Param("status") String status,
-			@Param("inputDate") LocalDate inputDate);
+			@Param("attendanceDate") LocalDate attendanceDate);
 
 	AttendanceView findById(
 			@Param("attendanceId") Integer attendanceId);

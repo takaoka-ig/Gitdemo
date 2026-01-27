@@ -32,17 +32,17 @@ public class AttendanceController {
 	public String submit(
 			@RequestParam("unit") String unit,
 			@RequestParam("username") String username,
-			@RequestParam("inputDate") String inputDate,
+			@RequestParam("attendanceDate") String attendanceDate,
 			Model model) {
 
 		attendanceService.register(
 				unit,
 				username,
-				LocalDate.parse(inputDate));
+				LocalDate.parse(attendanceDate));
 
 		model.addAttribute(
 				"message",
-				"出席登録しました：" + unit + " / " + username + " / " + inputDate);
+				"出席登録しました：" + unit + " / " + username + " / " + attendanceDate);
 
 		return "attendance";
 	}
@@ -63,10 +63,10 @@ public class AttendanceController {
 	public String update(
 			@RequestParam Integer attendanceId,
 			@RequestParam String status,
-			@RequestParam LocalDate inputDate,
+			@RequestParam LocalDate attendanceDate,
 			RedirectAttributes redirectAttributes) {
 
-		attendanceService.updateAttendance(attendanceId, status, inputDate);
+		attendanceService.updateAttendance(attendanceId, status, attendanceDate);
 
 		redirectAttributes.addFlashAttribute(
 				"successMessage",

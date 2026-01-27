@@ -7,7 +7,7 @@ public class Attendance {
 
 	private Integer attendanceId;
 	private Integer userId;
-	private LocalDate inputDate;
+	private LocalDate attendanceDate;
 	private LocalDateTime createdAt;
 	private String status; 
 
@@ -27,12 +27,12 @@ public class Attendance {
 		this.userId = userId;
 	}
 
-	public LocalDate getInputDate() {
-		return inputDate;
+	public LocalDate getattendanceDate() {
+		return attendanceDate;
 	}
 
-	public void setInputDate(LocalDate inputDate) {
-		this.inputDate = inputDate;
+	public void setattendanceDate(LocalDate attendanceDate) {
+		this.attendanceDate = attendanceDate;
 	}
 
 	public LocalDateTime getCreatedAt() {

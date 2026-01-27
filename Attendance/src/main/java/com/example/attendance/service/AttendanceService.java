@@ -79,10 +79,10 @@ public class AttendanceService {
 	}
 
 	@Transactional
-	public void register(String unit, String username, LocalDate inputDate) {
+	public void register(String unit, String username, LocalDate attendanceDate) {
 
 		log.info("出席登録開始 unit={}, username={}, date={}",
-				unit, username, inputDate);
+				unit, username, attendanceDate);
 
 		try {
 			// ユーザー取得（なければ作成）
@@ -97,22 +97,22 @@ public class AttendanceService {
 			Integer userId = user.getUserId();
 
 			// 重複チェック
-			boolean exists = attendanceMapper.existsByUserIdAndDate(userId, inputDate);
+			boolean exists = attendanceMapper.existsByUserIdAndDate(userId, attendanceDate);
 
 			if (exists) {
-				log.warn("二重登録検知 userId={}, date={}", userId, inputDate);
+				log.warn("二重登録検知 userId={}, date={}", userId, attendanceDate);
 				throw new IllegalStateException(
-						  unit + " / " + username + " / " + inputDate+ " はすでに出席登録されています。");
+						  unit + " / " + username + " / " + attendanceDate+ " はすでに出席登録されています。");
 			}
 
 			// 出席登録
 			Attendance attendance = new Attendance();
 			attendance.setUserId(userId);
-			attendance.setInputDate(inputDate);
+			attendance.setattendanceDate(attendanceDate);
 
 			attendanceMapper.insert(attendance);
 
-			log.info("出席登録完了 userId={}, date={}", userId, inputDate);
+			log.info("出席登録完了 userId={}, date={}", userId, attendanceDate);
 
 		} catch (IllegalStateException e) {
 			// エラー（想定内）
@@ -123,7 +123,7 @@ public class AttendanceService {
 			// 想定外エラー
 			log.error(
 					"出席登録中に想定外エラーが発生しました unit={}, username={}, date={}",
-					unit, username, inputDate,
+					unit, username, attendanceDate,
 					e);
 			throw e;
 		}
@@ -134,12 +134,12 @@ public class AttendanceService {
 	public void updateAttendance(
 			Integer attendanceId,
 			String status,
-			LocalDate inputDate) {
+			LocalDate attendanceDate) {
 
 		log.info("出席更新 id={}, status={}, date={}",
-				attendanceId, status, inputDate);
+				attendanceId, status, attendanceDate);
 
-		attendanceMapper.updateAttendance(attendanceId, status, inputDate);
+		attendanceMapper.updateAttendance(attendanceId, status, attendanceDate);
 	}
 
 	public AttendanceView getAttendance(Integer attendanceId) {

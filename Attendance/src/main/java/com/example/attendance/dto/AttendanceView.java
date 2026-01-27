@@ -9,7 +9,7 @@ public class AttendanceView {
     private String unitLabel; 	//日本語での画面表示用
     private String username;
     private String status;
-    private LocalDate inputDate;
+    private LocalDate attendanceDate;
 
     public Integer getAttendanceId() {
         return attendanceId;
@@ -45,11 +45,11 @@ public class AttendanceView {
         this.status = status;
     }
 
-    public LocalDate getInputDate() {
-        return inputDate;
+    public LocalDate getAttendanceDate() {
+        return attendanceDate;
     }
-    public void setInputDate(LocalDate inputDate) {
-        this.inputDate = inputDate;
+    public void setAttendanceDate(LocalDate attendanceDate) {
+        this.attendanceDate = attendanceDate;
     }
     
     private String convertUnitLabel(String unit) {
