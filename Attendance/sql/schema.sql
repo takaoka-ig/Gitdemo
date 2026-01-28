@@ -1,3 +1,7 @@
+DROP TABLE IF attendance;
+DROP TABLE IF users;
+
+
 -- users テーブル
 CREATE TABLE users (
     user_id SERIAL PRIMARY KEY,
@@ -15,3 +19,5 @@ CREATE TABLE attendance (
         FOREIGN KEY (user_id)
         REFERENCES users(user_id)
 );
+
+
