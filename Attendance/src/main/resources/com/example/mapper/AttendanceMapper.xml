@@ -80,7 +80,7 @@
 		JOIN users u ON a.user_id = u.user_id
 		<where>
 		<if test="unit != null and unit != ''">
-		AND u.unit = #{unit}
+		u.unit = #{unit}
 		</if>
 		<if test="username != null and username != ''">
 		AND u.name = #{username} 
