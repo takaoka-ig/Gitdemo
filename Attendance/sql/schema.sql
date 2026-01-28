@@ -10,7 +10,7 @@ CREATE TABLE attendance (
     attendance_id SERIAL PRIMARY KEY,
     user_id INTEGER NOT NULL,
     status VARCHAR(10) DEFAULT 'ATTEND',
-    input_date DATE NOT NULL,
+    attendance_date DATE NOT NULL,
     CONSTRAINT fk_attendance_user
         FOREIGN KEY (user_id)
         REFERENCES users(user_id)
