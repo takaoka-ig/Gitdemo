@@ -19,7 +19,17 @@ Spring Boot + MyBatis + PostgreSQL を使用した出席管理アプリです。
 本アプリケーションを起動する前に、  
 PostgreSQL にテーブルを作成してください。
 
+## DBセットアップ
+
 ### 1. データベース作成
 
-```sql
 CREATE DATABASE attendance_db;
+
+### 2. テーブル作成
+sql/schema.sql を実行
+
+### 3. 初期データ（任意）
+sql/data.sql を実行
+
+### 4. アプリ起動
+Spring Boot を起動

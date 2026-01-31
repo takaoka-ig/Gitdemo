@@ -7,6 +7,12 @@ import org.junit.jupiter.api.Test;
 class SampleTest {
     
   //テストメソッド
+	@Test
+	void test1() {
+		fail("テスト失敗");
+	}
+	
+	
     @Test
     void myFirstTest() {      
 	// 期待される結果と実際の結果が同じかどうか、判定する。
@@ -18,4 +24,7 @@ class SampleTest {
 	// 期待される結果と実際の結果が同じかどうか、判定する。
         assertEquals(3, 1 + 1);
     }
+    
+    
+    
 }
